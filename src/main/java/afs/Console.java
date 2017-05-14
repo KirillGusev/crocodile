@@ -54,6 +54,8 @@ public class Console {
             case "mkf":mkf(args);break;
             case "adif":adif(args);break;
             case "cat":cat(args);break;
+            case "last":last();break;
+            case "all":all();break;
             case "exit":System.out.println("Bye."); break;
             default:
                 System.out.println("\"" + tool + "\" not an internal or external command,"+System.lineSeparator() +
@@ -260,5 +262,29 @@ public class Console {
         if (!buf.equals(""))
             result.add(buf);
         return result.toArray(new String[0]);
+    }
+
+    /**
+     * Method to run all previous commands
+     */
+    private void all() {
+        historyCommands.removeLast();
+        for (String command:historyCommands){
+            System.out.print(currentDirectory + ">");
+            System.out.println("Execute the command: "+command);
+            runCommand(command);
+        }
+    }
+
+    /**
+     * Method to run the previous command
+     */
+    private void last() {
+        historyCommands.removeLast();
+        if(historyCommands.size()!=0) {
+            System.out.print(currentDirectory + ">");
+            System.out.println("Execute the command: " + historyCommands.getLast());
+            runCommand(historyCommands.getLast());
+        }
     }
 }
